@@ -1,28 +1,23 @@
 import React from 'react'
 import { Product } from './Product'
-import Grid from '@material-ui/core/Grid'
 
 //Types
 type Props = {
-    data: CarItemType[];
-    handleAddToCar: (clickproduct: CarItemType) => void 
+    data: CarItemType[] | undefined;
+    handleAddToCar: (clickproduct: CarItemType) => void
 }
 
-const ProductList: React.FC<Props> = ({ data, handleAddToCar}) => {
+const ProductList: React.FC<Props> = ({ data, handleAddToCar }) => {
     return (
-        <>
-            <Grid container spacing={3}>
-                {data?.map(product => (
-                    <Grid item
-                        key={product.id}
-                        xs={12} sm={6} md={4} lg={3}>
-                        <Product
-                            product={product}
-                            handleAddToCar={handleAddToCar} />
-                    </Grid>
-                ))}
-            </Grid>
-        </>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {data?.map(product => (
+                <div key={product.id}>
+                    <Product
+                        product={product}
+                        handleAddToCar={handleAddToCar} />
+                </div>
+            ))}
+        </div>
     )
 }
 export default ProductList

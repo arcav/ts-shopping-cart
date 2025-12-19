@@ -1,38 +1,37 @@
 import React from 'react'
 import { NavBar } from './NavBar/NavBar'
-import Container from '@material-ui/core/Container'
-import { makeStyles } from '@material-ui/core'
-import LinearProgress from '@material-ui/core/LinearProgress';
 import CartDrawer from './Drawer/CartDrawer';
 import CartButton from '../Cart/CartButton'
 
 //Types
 type Props = {
     children: React.ReactNode
-    products: CarItemType[]
+    isLoading: boolean
+    error: any
+    cartProducts: CarItemType[]
     handleRemoveFromCart: (id: number) => void
     handleAddToCar: (clickedproduct: CarItemType) => void
-    calculateTotal: () => void
+    calculateTotal: (products: CarItemType[]) => number
 }
 
-//Styles
-const useStyles = makeStyles({
-    root: {
-        marginTop: "8rem",
-        width: '85%',
-    },
-    spinner: {
-        marginTop: "64px",
-    }
-})
-
-const Layout = ({ children, isLoading, error, cartProducts, handleRemoveFromCart, handleAddToCar, calculateTotal }: Props | any) => {
+const Layout = ({ children, isLoading, error, cartProducts, handleRemoveFromCart, handleAddToCar, calculateTotal }: Props) => {
     const [cartOpen, setCartOpen] = React.useState(false)
-    const classes = useStyles()
+
     return (
-        <>
-            {isLoading && <LinearProgress color="secondary" className={classes.spinner} />}
-            {error && <h3>Algo salio mal</h3>}
+        <div className="min-h-screen bg-gray-100 flex flex-col">
+            <NavBar />
+
+            {isLoading && (
+                <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
+                    <div className="h-full bg-indigo-600 animate-pulse"></div>
+                </div>
+            )}
+
+            <main className="flex-grow pt-20 pb-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+                {error && <div className="text-red-500 text-center text-xl mt-10">Algo salio mal</div>}
+                {children}
+            </main>
+
             <CartDrawer
                 cartOpen={cartOpen}
                 setCartOpen={setCartOpen}
@@ -42,10 +41,7 @@ const Layout = ({ children, isLoading, error, cartProducts, handleRemoveFromCart
                 calculateTotal={calculateTotal}
             />
             <CartButton setCartOpen={setCartOpen} products={cartProducts} />
-            <Container className={classes.root}>
-                {children}
-            </Container>
-        </>
+        </div>
     )
 }
 export default Layout

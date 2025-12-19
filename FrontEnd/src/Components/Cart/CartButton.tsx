@@ -1,8 +1,5 @@
 import React from 'react'
-import IconButton from '@material-ui/core/IconButton'
-import { AddShoppingCartOutlined } from '@material-ui/icons';
-import Badge from '@material-ui/core/Badge'
-import { makeStyles } from '@material-ui/core'
+import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 
 //Types
 type Props = {
@@ -10,37 +7,26 @@ type Props = {
     products: CarItemType[]
 }
 
-//Styles
-const useStyles = makeStyles({
-    btn: {
-        background: "red",
-        color: "white",
-        marginTop: 20,
-
-        border: "solid",
-        borderWidth: 1,
-        position: "fixed",
-        '&:hover': {
-            color: "red",
-            backgroundColor: "whitesmoke",
-            border: "solid",
-            borderWidth: 1
-        }
-    },
-})
-
 const CartButton = ({ setCartOpen, products }: Props) => {
-    const classes = useStyles()
-
     const getTotalProducts = (products: CarItemType[]) =>
         products.reduce((ack: number, product) => ack + product.amount, 0)
 
+    const total = getTotalProducts(products);
+
     return (
-        <IconButton className={classes.btn} onClick={() => setCartOpen(true)} >
-            <Badge badgeContent={getTotalProducts(products)} color='primary'>
-                <AddShoppingCartOutlined />
-            </Badge>
-        </IconButton>
+        <button
+            className="fixed z-50 top-5 right-5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full p-3 shadow-lg transition-all duration-300 flex items-center justify-center group"
+            onClick={() => setCartOpen(true)}
+        >
+            <div className="relative">
+                <ShoppingCartIcon className="h-6 w-6" />
+                {total > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-indigo-600">
+                        {total}
+                    </span>
+                )}
+            </div>
+        </button>
     )
 }
 export default CartButton
