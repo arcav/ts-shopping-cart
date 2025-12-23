@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavBar } from './NavBar/NavBar'
+import NavBar from './NavBar/NavBar';
 import CartDrawer from './Drawer/CartDrawer';
 import CartButton from '../Cart/CartButton'
 
@@ -9,21 +9,29 @@ type Props = {
     isLoading: boolean
     error: any
     cartProducts: CarItemType[]
-    handleRemoveFromCart: (id: number) => void
+    handleRemoveFromCart: (id: string) => void
     handleAddToCar: (clickedproduct: CarItemType) => void
     calculateTotal: (products: CarItemType[]) => number
+    clearCart: () => void
+    cartOpen: boolean;
+    setCartOpen: (open: boolean) => void;
+    badgeContent: number;
+    onSearch: (query: string) => void;
 }
 
-const Layout = ({ children, isLoading, error, cartProducts, handleRemoveFromCart, handleAddToCar, calculateTotal }: Props) => {
-    const [cartOpen, setCartOpen] = React.useState(false)
+const Layout = ({ children, isLoading, error, cartProducts, handleRemoveFromCart, handleAddToCar, calculateTotal, clearCart, cartOpen, setCartOpen, badgeContent, onSearch }: Props) => {
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col">
-            <NavBar />
+            <NavBar
+                setCartOpen={setCartOpen}
+                badgeContent={badgeContent}
+                onSearch={onSearch}
+            />
 
             {isLoading && (
                 <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
-                    <div className="h-full bg-indigo-600 animate-pulse"></div>
+                    <div className="h-full bg-blue-900 animate-pulse"></div>
                 </div>
             )}
 
@@ -39,6 +47,7 @@ const Layout = ({ children, isLoading, error, cartProducts, handleRemoveFromCart
                 handleRemoveFromCart={handleRemoveFromCart}
                 handleAddToCar={handleAddToCar}
                 calculateTotal={calculateTotal}
+                clearCart={clearCart}
             />
             <CartButton setCartOpen={setCartOpen} products={cartProducts} />
         </div>

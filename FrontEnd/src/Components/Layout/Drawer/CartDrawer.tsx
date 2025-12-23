@@ -5,12 +5,13 @@ type Props = {
     cartOpen: boolean
     setCartOpen: (arg: boolean) => void
     products: CarItemType[]
-    handleRemoveFromCart: (id: number) => void
+    handleRemoveFromCart: (id: string) => void
     handleAddToCar: (clickproduct: CarItemType) => void
     calculateTotal: (cartProducts: CarItemType[]) => number
+    clearCart: () => void
 }
 
-const CartDrawer: React.FC<Props> = ({ cartOpen, setCartOpen, products, handleRemoveFromCart, handleAddToCar, calculateTotal }: Props) => {
+const CartDrawer: React.FC<Props> = ({ cartOpen, setCartOpen, products, handleRemoveFromCart, handleAddToCar, calculateTotal, clearCart }: Props) => {
     // Prevent body scroll when drawer is open
     useEffect(() => {
         if (cartOpen) {
@@ -43,6 +44,7 @@ const CartDrawer: React.FC<Props> = ({ cartOpen, setCartOpen, products, handleRe
                         removeFromCart={handleRemoveFromCart}
                         onClose={() => setCartOpen(false)}
                         calculateTotal={calculateTotal}
+                        clearCart={clearCart}
                     />
                 </div>
             </div>

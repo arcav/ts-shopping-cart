@@ -1,17 +1,18 @@
 import React from 'react'
 import CartProduct from '../CartProduct/CartProduct';
-import { XMarkIcon } from '@heroicons/react/24/outline'; // Adjust import based on version, v2 is standard now
+import { XMarkIcon, TrashIcon } from '@heroicons/react/24/outline'; // Adjust import based on version, v2 is standard now
 
 //Types
 type Props = {
     cartProducts: CarItemType[];
     addToCart: (clickproduct: CarItemType) => void;
-    removeFromCart: (id: number) => void
+    removeFromCart: (id: string) => void
     onClose: () => void
     calculateTotal: (cartProducts: CarItemType[]) => number
+    clearCart: () => void
 }
 
-const Cart: React.FC<Props> = ({ cartProducts, addToCart, removeFromCart, onClose, calculateTotal }) => {
+const Cart: React.FC<Props> = ({ cartProducts, addToCart, removeFromCart, onClose, calculateTotal, clearCart }) => {
     return (
         <div className="w-full h-full p-4 flex flex-col">
             <div className="flex justify-between items-center mb-6">
@@ -36,7 +37,16 @@ const Cart: React.FC<Props> = ({ cartProducts, addToCart, removeFromCart, onClos
                 ))}
             </div>
             <div className="mt-4 pt-4 border-t border-gray-200">
-                <h2 className="text-xl font-bold text-right text-gray-900">Total: ${calculateTotal(cartProducts).toFixed(2)}</h2>
+                <h2 className="text-xl font-bold text-right text-gray-900 mb-4">Total: ${calculateTotal(cartProducts).toFixed(2)}</h2>
+                {cartProducts.length > 0 && (
+                    <button
+                        onClick={clearCart}
+                        className="w-full flex items-center justify-center space-x-2 bg-red-100 text-red-600 hover:bg-red-200 font-bold py-3 px-4 rounded-lg transition-colors"
+                    >
+                        <TrashIcon className="h-5 w-5" />
+                        <span>Clear Cart</span>
+                    </button>
+                )}
             </div>
         </div>
     )
