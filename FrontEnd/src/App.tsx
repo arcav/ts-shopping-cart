@@ -120,11 +120,13 @@ const AppContent = () => {
                 <Route path="/">
                     <Layout {...commonLayoutProps}>
                         <BannerHero images={[
-                            "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                            "https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                            "https://images.unsplash.com/photo-1472851294608-415522f96385?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                            "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+                            "/assets/banners/banner1.png", // MEGA SALE fridge (Local)
+                            "/assets/banners/banner2.png", // CLEAN DEALS washer (Local)
+                            "https://images.unsplash.com/photo-1556910103-1c02745aae4d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80", // Premium Extraction/Oven
+                            "/assets/banners/banner2.png"  // Modern Dishwasher/Kitchen
                         ]} />
+
+
                         
                         <Loja />
 

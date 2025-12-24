@@ -34,7 +34,8 @@ export const BannerHero: React.FC<IBannerHeroProps> = ({ images, autoPlayInterva
     if (!images || images.length === 0) return null;
 
     return (
-        <div className="w-[95%] h-[45vh] md:w-[100%] h-[20vh] mx-auto relative group mt-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100">
+        <div className="w-[95%] h-[40vh] md:w-full md:h-[45vh] mx-auto relative group mt-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100">
+
             <div
                 style={{ backgroundImage: `url(${images[currentIndex]})` }}
                 className="w-full h-full bg-center bg-cover duration-700 ease-in-out transition-all transform hover:scale-105"
@@ -44,14 +45,21 @@ export const BannerHero: React.FC<IBannerHeroProps> = ({ images, autoPlayInterva
             </div>
 
             {/* Left Arrow */}
-            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-4 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer hover:bg-black/50 hover:scale-110 transition-all backdrop-blur-sm">
-                <ChevronLeftIcon onClick={prevSlide} className="h-5 w-5" />
+            <div 
+                onClick={prevSlide}
+                className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-4 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer hover:bg-black/50 hover:scale-110 transition-all backdrop-blur-sm"
+            >
+                <ChevronLeftIcon className="h-5 w-5" />
             </div>
 
             {/* Right Arrow */}
-            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-4 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer hover:bg-black/50 hover:scale-110 transition-all backdrop-blur-sm">
-                <ChevronRightIcon onClick={nextSlide} className="h-5 w-5" />
+            <div 
+                onClick={nextSlide}
+                className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-4 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer hover:bg-black/50 hover:scale-110 transition-all backdrop-blur-sm"
+            >
+                <ChevronRightIcon className="h-5 w-5" />
             </div>
+
 
             {/* Dots */}
             <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
