@@ -7,16 +7,24 @@ type Props = {
     handleAddToCar: (clickproduct: CarItemType) => void;
     cartProducts: CarItemType[];
     handleRemoveFromCart: (id: string) => void;
+    showCategories?: boolean;
+    title?: string;
 }
 
-const ProductList: React.FC<Props> = ({ data, handleAddToCar, cartProducts, handleRemoveFromCart }) => {
+const ProductList: React.FC<Props> = ({ 
+    data, 
+    handleAddToCar, 
+    cartProducts, 
+    handleRemoveFromCart, 
+    showCategories = true,
+    title = ""
+}) => {
 
     console.log('🔄 ProductList render - Cart has:', cartProducts.length, 'items:', cartProducts.map(p => ({ id: p.id, amount: p.amount })));
 
     const getItemQuantity = useCallback((id: string) => {
         const found = cartProducts.find(item => item.id === id);
         const quantity = found?.amount || 0;
-        console.log(`🔍 getItemQuantity(${id}):`, quantity, '| Cart IDs:', cartProducts.map(p => p.id), '| Match:', found ? 'YES' : 'NO');
         return quantity;
     }, [cartProducts]);
 
@@ -24,6 +32,10 @@ const ProductList: React.FC<Props> = ({ data, handleAddToCar, cartProducts, hand
     const groupedProducts = useMemo(() => {
         if (!data) return {};
         
+        if (!showCategories) {
+            return { [title]: data };
+        }
+
         return data.reduce((groups, product) => {
             const category = product.category;
             if (!groups[category]) {
@@ -32,7 +44,7 @@ const ProductList: React.FC<Props> = ({ data, handleAddToCar, cartProducts, hand
             groups[category].push(product);
             return groups;
         }, {} as Record<string, CarItemType[]>);
-    }, [data]);
+    }, [data, showCategories, title]);
 
     // Get sorted category names
     const categories = Object.keys(groupedProducts).sort();
@@ -42,7 +54,7 @@ const ProductList: React.FC<Props> = ({ data, handleAddToCar, cartProducts, hand
             {categories.map(category => (
                 <ProductCarousel
                     key={category}
-                    title={category}
+                    title={showCategories ? category : title}
                     products={groupedProducts[category]}
                     handleAddToCar={handleAddToCar}
                     handleRemoveFromCart={handleRemoveFromCart}

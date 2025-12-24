@@ -68,12 +68,20 @@ const getProducts = async (): Promise<CarItemType[]> => {
             }
         }
 
+        // Apply normalization (e.g., "Microondas" -> "Micro-ondas")
+        const normalized = category.toLowerCase().trim().replace(/[-\s]/g, '');
+        if (normalized === 'microondas') {
+            category = 'Micro-ondas';
+        }
+
+
         // Try different possible ID field names
         const productId = p.product_id || p.productId || p.id || `temp-${Math.random()}`;
 
         return {
             id: productId,
             category: category,
+            brand: p.brand,
             description: p.name,
             image: p.image,
             price: p.price,
@@ -81,6 +89,7 @@ const getProducts = async (): Promise<CarItemType[]> => {
             title: p.name,
             amount: 0
         };
+
     });
     
     // Log to verify IDs are unique

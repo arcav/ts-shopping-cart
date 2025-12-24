@@ -5,19 +5,32 @@ const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-async function checkCategories() {
+async function checkProducts() {
     const { data, error } = await supabase
-        .from('categories')
+        .from('products')
         .select('*')
-        .eq('parent_path', '/eletrodomesticos/')
-        .limit(5);
+        .limit(10);
     
     if (error) {
         console.error('Error:', error);
         return;
     }
     
-    console.log('Categories:', JSON.stringify(data, null, 2));
+    console.log('Products:', JSON.stringify(data, null, 2));
+    
+    const brands = [...new Set(data.map(p => p.brand))];
+    console.log('Brands found in these 10:', brands);
+
+    // Specifically look for Panasonic
+    const { data: panasonic, error: pError } = await supabase
+        .from('products')
+        .select('*')
+        .ilike('brand', '%Panasonic%')
+        .limit(5);
+    
+    if (pError) console.error('Panasonic Error:', pError);
+    else console.log('Panasonic Products:', JSON.stringify(panasonic, null, 2));
 }
 
-checkCategories();
+checkProducts();
+

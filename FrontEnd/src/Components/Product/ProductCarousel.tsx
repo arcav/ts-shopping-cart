@@ -27,9 +27,12 @@ const ProductCarousel: React.FC<Props> = ({ title, products, handleAddToCar, han
 
     return (
         <div className="py-8 border-b border-gray-100 last:border-0 relative">
-            <div className="flex items-center justify-between mb-6 px-4">
-                <h2 className="text-2xl font-bold text-gray-900 tracking-tight">{title}</h2>
-            </div>
+            {title && (
+                <div className="flex items-center justify-between mb-6 px-4">
+                    <h2 className="text-2xl font-bold text-gray-900 tracking-tight">{title}</h2>
+                </div>
+            )}
+
 
             {/* Carousel Container */}
             <div className="relative group/carousel">

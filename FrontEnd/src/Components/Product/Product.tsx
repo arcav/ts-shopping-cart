@@ -22,9 +22,10 @@ export const Product: React.FC<Props> = ({ product, handleAddToCar, handleRemove
     return (
         <>
             <div
-                className="group flex flex-col h-[400px] bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer relative border border-gray-100/60"
+                className="group flex flex-col h-[460px] bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer relative border border-gray-100/60"
                 onClick={() => setIsModalOpen(true)}
             >
+
                 {/* Badges Overlay */}
                 <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
                     {/* Discount Badge - Now sleeker and removed category name badge */}
@@ -52,11 +53,13 @@ export const Product: React.FC<Props> = ({ product, handleAddToCar, handleRemove
                 </div>
 
                 {/* Content Section */}
-                <div className="flex-1 px-5 py-5 flex flex-col bg-white">
+                <div className="flex-1 px-6 py-6 flex flex-col bg-white">
                     {/* Title */}
-                    <h3 className="text-sm text-gray-800 font-bold line-clamp-2 leading-snug mb-3 min-h-[40px] group-hover:text-blue-900 transition-colors" title={product.title}>
+                    <h3 className="text-lg text-gray-900 font-black line-clamp-2 leading-snug mb-4 min-h-[56px] group-hover:text-blue-900 transition-colors tracking-tight" title={product.title}>
                         {product.title}
                     </h3>
+
+
 
                     {/* Price Section */}
                     <div className="mt-auto mb-4">
