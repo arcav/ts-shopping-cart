@@ -47,10 +47,11 @@ const ProductCarousel: React.FC<Props> = ({ title, products, handleAddToCar, han
 
                 <div 
                     ref={listRef}
-                    className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 px-0 gap-6 scroll-smooth"
+                    className="grid grid-cols-2 gap-2 xs:gap-3 md:flex md:overflow-x-auto md:snap-x md:snap-mandatory scrollbar-hide pb-8 px-2 md:px-0 md:gap-6 scroll-smooth"
                 >
+
                     {products.map(product => (
-                        <div key={product.id} className="flex-none w-72 snap-center">
+                        <div key={product.id} className="w-full md:flex-none md:w-72 md:snap-center">
                             <Product
                                 product={product}
                                 handleAddToCar={handleAddToCar}
@@ -60,6 +61,7 @@ const ProductCarousel: React.FC<Props> = ({ title, products, handleAddToCar, han
                         </div>
                     ))}
                 </div>
+
                 
                 {/* Right Arrow (Floating Outside) */}
                 <button 

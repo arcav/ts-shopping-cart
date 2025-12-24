@@ -141,8 +141,9 @@ const AppContent = () => {
                             />
                         </div>
 
-                        <div className="space-y-12 my-8">
-                            <h3 className="text-2xl font-bold text-gray-800 tracking-tight mb-6">All Products</h3>
+                        <div className="space-y-12 my-8 px-4 md:px-0">
+                            <h3 className="text-xl md:text-2xl font-bold text-gray-800 tracking-tight mb-4 md:mb-6">All Products</h3>
+
                             
                             <ProductList
                                 data={filteredProducts}

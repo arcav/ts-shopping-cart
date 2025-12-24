@@ -113,7 +113,8 @@ const CategoryPage: React.FC = () => {
                 <span>Back</span>
             </button>
 
-            <h1 className="text-3xl font-bold text-gray-900 capitalize mb-8 border-b pb-4">
+            <h1 className="text-xl md:text-3xl font-bold text-gray-900 capitalize mb-4 md:mb-8 border-b pb-4">
+
                 {categoryLabel}
             </h1>
 
