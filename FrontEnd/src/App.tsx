@@ -4,15 +4,15 @@ import { useCategories } from './hooks/useCategories';
 import { useCartContext } from './context/CartContext';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
-import ProductList from './Components/Product/ProductList';
-import Layout from './Components/Layout/Layout';
-import { BannerHero } from './Components/BannerHero/BannerHero';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import Login from './pages/Login/Login';
-import Dashboard from './pages/Admin/Dashboard';
-import CategoryList from './Components/Category/CategoryList';
-import CategoryPage from './pages/Category/CategoryPage';
-import BrandFilter from './Components/Filter/BrandFilter';
+import ProductList from '@/components/organisms/ProductList';
+import Layout from '@/components/templates/Layout';
+import { BannerHero } from '@/components/organisms/BannerHero/BannerHero';
+import { AuthProvider, useAuth } from '@/context/AuthContext';
+import Login from '@/pages/Login/Login';
+import Dashboard from '@/pages/Admin/Dashboard';
+import CategoryList from '@/components/molecules/Category/CategoryList';
+import CategoryPage from '@/pages/Category/CategoryPage';
+import BrandFilter from '@/components/organisms/Filter/BrandFilter';
 
 
 
@@ -40,7 +40,7 @@ const AppContent = () => {
 
 
     const { data, isLoading, error } = useCart();
-    
+
     const {
         cartProducts,
         handleAddToCar,
@@ -104,7 +104,7 @@ const AppContent = () => {
                 <Route path="/login">
                     <Login />
                 </Route>
-                
+
                 <ProtectedRoute path="/admin" role="admin">
                     <Layout {...commonLayoutProps}>
                         <Dashboard products={data} cartProducts={cartProducts} />
@@ -127,24 +127,24 @@ const AppContent = () => {
                         ]} />
 
 
-                        
+
                         <Loja />
 
                         <CategoryList categories={categories} />
 
                         <div className="my-8">
                             <h3 className="text-xl font-semibold text-gray-800 mb-4">Filtrar por Marca</h3>
-                            <BrandFilter 
-                                brands={brands} 
-                                selectedBrand={selectedBrand} 
-                                onSelectBrand={setSelectedBrand} 
+                            <BrandFilter
+                                brands={brands}
+                                selectedBrand={selectedBrand}
+                                onSelectBrand={setSelectedBrand}
                             />
                         </div>
 
                         <div className="space-y-12 my-8 px-4 md:px-0">
                             <h3 className="text-xl md:text-2xl font-bold text-gray-800 tracking-tight mb-4 md:mb-6">All Products</h3>
 
-                            
+
                             <ProductList
                                 data={filteredProducts}
                                 handleAddToCar={handleAddToCar}
@@ -152,7 +152,7 @@ const AppContent = () => {
                                 handleRemoveFromCart={handleRemoveFromCart}
                                 showCategories={true}
                             />
-                            
+
                             {filteredProducts?.length === 0 && (
                                 <div className="text-center py-12 text-gray-500">
                                     No products found matching your search.
@@ -168,7 +168,7 @@ const AppContent = () => {
 }
 
 import { LocationProvider } from './context/LocationContext';
-import { Loja } from './Components/Loja/Loja';
+import { Loja } from '@/components/molecules/Loja/Loja';
 import { CartProvider } from './context/CartContext';
 
 const App = () => {
