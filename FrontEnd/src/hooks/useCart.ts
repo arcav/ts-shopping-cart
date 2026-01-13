@@ -2,56 +2,53 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { supabase } from '../lib/supabaseClient';
 
-type ElectroluxProduct = {
-    product_id?: string;
-    productId?: string;
-    id?: string;
-    name: string;
-    brand: string;
-    link: string;
-    image: string;
-    price: number;
-    list_price?: number;
-    listPrice?: number;
-    source_category_name?: string;
-    source_category_id?: number;
-    sourceCategory?: {
-        categoryName: string;
-    };
-    category_paths?: string[];
-    categoryPaths?: string[];
-};
-
 const getProducts = async (): Promise<CarItemType[]> => {
-    // Fetch products from Supabase
+    // Fetch products from Supabase with selective columns for efficiency
     const { data, error } = await supabase
-        .from('products') // TODO: Replace 'products' with your actual table name
-        .select('*');
-    
+        .from('products')
+        .select(`
+            id,
+            product_id,
+            productId,
+            name,
+            brand,
+            link,
+            image,
+            price,
+            list_price,
+            listPrice,
+            source_category_name,
+            source_category_id,
+            category_paths,
+            categoryPaths
+        `);
+
     if (error) {
         console.error('Error fetching products from Supabase:', error);
         throw error;
     }
-    
+
     // Adapter logic
-    const rawProducts: ElectroluxProduct[] = data || [];
-    
+    const rawProducts = data || [];
+
     // Log first product to see structure
     if (rawProducts.length > 0) {
         console.log('🔍 First product structure:', Object.keys(rawProducts[0]));
         console.log('🔍 First product sample:', rawProducts[0]);
     }
-    
-    const mapped = rawProducts.map((p) => {
+
+    return rawProducts.map((p) => {
         // Extract category from paths
         // Example path: "/eletrodomesticos/lava-loucas/lava-loucas-de-piso/"
         // We want "Lava Loucas" (index 2)
-        let category = p.source_category_name || p.sourceCategory?.categoryName || 'Geral';
-        
+        let category = p.source_category_name || 'Geral';
+
         const paths = p.category_paths || p.categoryPaths || [];
         if (paths.length > 0) {
             // Find a path that has enough depth
             const validPath = paths.find((path: string) => {
+                // Ensure path is a string before splitting
+                if (typeof path !== 'string') return false;
                 const parts = path.split('/').filter(Boolean);
                 return parts.length >= 2;
             });
@@ -59,7 +56,7 @@ const getProducts = async (): Promise<CarItemType[]> => {
             if (validPath) {
                 const parts = validPath.split('/').filter(Boolean);
                 const subCategorySlug = parts[1]; // "lava-loucas"
-                
+
                 // Format: "lava-loucas" -> "Lava Loucas"
                 category = subCategorySlug
                     .split('-')
@@ -81,20 +78,16 @@ const getProducts = async (): Promise<CarItemType[]> => {
         return {
             id: productId,
             category: category,
-            brand: p.brand,
-            description: p.name,
-            image: p.image,
-            price: p.price,
-            listPrice: p.list_price || p.listPrice,
-            title: p.name,
+            brand: p.brand || '',
+            description: p.name || '',
+            image: p.image || '',
+            price: p.price || 0,
+            listPrice: p.list_price || p.listPrice || undefined,
+            title: p.name || '',
             amount: 0
         };
 
     });
-    
-    // Log to verify IDs are unique
-    console.log('📋 Loaded products:', mapped.length, 'Sample IDs:', mapped.slice(0, 5).map(p => p.id));
-    return mapped;
 };
 
 export const useCart = () => {
@@ -114,7 +107,7 @@ export const useCart = () => {
             const isProductInCart = prev.find(product => product.id === clickproduct.id);
             console.log('📦 Current cart:', prev.map(p => ({ id: p.id, amount: p.amount })));
             console.log('🔍 Product in cart?', isProductInCart ? 'YES' : 'NO');
-            
+
             if (isProductInCart) {
                 const updated = prev.map(product =>
                     product.id === clickproduct.id
